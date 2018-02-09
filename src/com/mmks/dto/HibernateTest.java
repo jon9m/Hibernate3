@@ -18,6 +18,10 @@ public class HibernateTest {
 		userDetails.setDescription("user description ...... ");
 		userDetails.setLong_description("user Long description - user Long description user Long description ");
 		
+		Address homeAddress = new Address("home street","Mel", "vic" ,"1234");		
+		Address workAddress = new Address("work street","Mel", "vic" ,"1234");		
+		userDetails.setHomeAddress(homeAddress);
+		userDetails.setWorkAddress(workAddress);
 
 		try {
 			sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
@@ -46,6 +50,11 @@ public class HibernateTest {
 				sessionFactory.close();
 			}
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "HibernateTest [\\n]";
 	}
 
 }
