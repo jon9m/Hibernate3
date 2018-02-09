@@ -7,20 +7,45 @@ import org.hibernate.cfg.Configuration;
 public class HibernateTest {
 
 	public static void main(String[] args) {
+
+		Session session = null;
+		SessionFactory sessionFactory = null;
+
 		UserDetails userDetails = new UserDetails();
-		userDetails.setUserId(1);
+//		userDetails.setUserId(2);
 		userDetails.setUserName("first user");
+		userDetails.setJoinedDate(new java.util.Date());
+		userDetails.setDescription("user description ...... ");
+		userDetails.setLong_description("user Long description - user Long description user Long description ");
+		
 
-		SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+		try {
+			sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+			session = sessionFactory.openSession();
 
-		Session session = sessionFactory.openSession();
+			session.beginTransaction();
+			Integer userId = (Integer) session.save(userDetails);
+			
+			session.getTransaction().commit();
+			session.close();
 
-		session.beginTransaction();
-		session.save(userDetails);
-		session.getTransaction().commit();
+			session = sessionFactory.openSession();
+			session.beginTransaction();			
+			UserDetails user = session.get(UserDetails.class, userId);
+			System.out.println(user.toString());
+			session.getTransaction().commit();
+			session.close();
 
-		session.close();
-		sessionFactory.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+			if (sessionFactory != null) {
+				sessionFactory.close();
+			}
+		}
 	}
 
 }
