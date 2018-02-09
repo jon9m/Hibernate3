@@ -1,8 +1,8 @@
 package com.mmks.dto;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -18,6 +18,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.CollectionId;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "USER_DETAILS")
@@ -45,25 +49,31 @@ public class UserDetails {
 	@Column(name = "USER_JOINED_DATE")
 	@Temporal(TemporalType.DATE)
 	private Date joinedDate;
-	
+
 	@ElementCollection
-	@JoinTable(name="USER_ADDRESSES",
-		joinColumns=@JoinColumn(name="USER_ID_FK")
-	)
-	private Set<Address> addresses = new HashSet<Address>();
+	@JoinTable(name = "USER_ADDRESSES", joinColumns = @JoinColumn(name = "USER_ID_FK"))
+//	@GenericGenerator(name = "hilo-gen", strategy = "hilo") // hilo no longer supported
+	@GenericGenerator(name="sequence-gen",strategy="sequence")
+	@CollectionId(columns = { @Column(name="ADDRESS_KEY_COLUMN") }, generator = "sequence-gen", type = @Type(type="long"))
+	private Collection<Address> addresses = new ArrayList<Address>();
 
 	// ----------------------------------------------------------------------//
 	
 	
+	
+	
+	
+	
+
 	public String getLong_description() {
 		return long_description;
 	}
 
-	public Set<Address> getAddresses() {
+	public Collection<Address> getAddresses() {
 		return addresses;
 	}
 
-	public void setAddresses(Set<Address> addresses) {
+	public void setAddresses(Collection<Address> addresses) {
 		this.addresses = addresses;
 	}
 
@@ -111,13 +121,10 @@ public class UserDetails {
 		this.joinedDate = joinedDate;
 	}
 
-	
-
 	@Override
 	public String toString() {
 		return "UserDetails [\nuserId=" + userId + ", \nuserName=" + userName + ", \ndescription=" + description
-				+ ", \nlong_description=" + long_description + ", \nsex=" + sex + ", \njoinedDate=" + joinedDate
-			    + "]";
+				+ ", \nlong_description=" + long_description + ", \nsex=" + sex + ", \njoinedDate=" + joinedDate + "]";
 	}
 
 }
