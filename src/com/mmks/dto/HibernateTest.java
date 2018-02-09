@@ -1,5 +1,7 @@
 package com.mmks.dto;
 
+import java.util.Arrays;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -40,8 +42,14 @@ public class HibernateTest {
 
 			session = sessionFactory.openSession();
 			session.beginTransaction();
-			UserDetails user = session.get(UserDetails.class, userId);
-			System.out.println(user.toString());
+			UserDetails user = session.get(UserDetails.class, 1);
+			//System.out.println(user.toString());
+			
+			Thread.sleep(3000);
+			
+			//Send a new sql query after 3 seconds to collect addresses
+			System.out.println(Arrays.toString(user.getAddresses().toArray()));
+			
 			session.getTransaction().commit();
 			session.close();
 

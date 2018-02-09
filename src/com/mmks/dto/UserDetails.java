@@ -1,12 +1,14 @@
 package com.mmks.dto;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -50,7 +52,7 @@ public class UserDetails {
 	@Temporal(TemporalType.DATE)
 	private Date joinedDate;
 
-	@ElementCollection
+	@ElementCollection(fetch=FetchType.LAZY)  //LAZY is default
 	@JoinTable(name = "USER_ADDRESSES", joinColumns = @JoinColumn(name = "USER_ID_FK"))
 //	@GenericGenerator(name = "hilo-gen", strategy = "hilo") // hilo no longer supported
 	@GenericGenerator(name="sequence-gen",strategy="sequence")
@@ -123,8 +125,9 @@ public class UserDetails {
 
 	@Override
 	public String toString() {
-		return "UserDetails [\nuserId=" + userId + ", \nuserName=" + userName + ", \ndescription=" + description
-				+ ", \nlong_description=" + long_description + ", \nsex=" + sex + ", \njoinedDate=" + joinedDate + "]";
+		return getClass().getName() + " {\n\tuserId: " + userId + "\n\tuserName: " + userName + "\n\tdescription: "
+				+ description + "\n\tlong_description: " + long_description + "\n\tsex: " + sex + "\n\tjoinedDate: "
+				+ joinedDate + "\n\taddresses: " + Arrays.toString(addresses.toArray())+ "\n}";
 	}
 
 }

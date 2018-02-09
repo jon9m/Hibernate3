@@ -63,8 +63,8 @@ public class Address {
 
 	@Override
 	public String toString() {
-		return "Address [\nstreet=" + street + ", \ncity=" + city + ", \nstate=" + state
-				+ ", \npincode=" + pincode + "]";
+		return getClass().getName() + " {\n\tstreet: " + street + "\n\tcity: " + city + "\n\tstate: " + state
+				+ "\n\tpincode: " + pincode + "\n}";
 	}
 
 }
