@@ -65,8 +65,46 @@ public class HibernateTest {
 			Citizenship citizenship = new Citizenship("US", 10, new GregorianCalendar(2017, 5, 30).getTime());
 			userdtl.setCitizenship(citizenship);
 			
+			//save the transient instance before flushing
 			session.save(citizenship);
 			session.save(userdtl);
+
+			session.getTransaction().commit();
+			session.close();
+			
+			// OneToOne mapping---------------------------------------------------------------------
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			UserDetails userdt2 = session.get(UserDetails.class, userId);			
+			
+			Vehicle vehicle1 = new Vehicle("Subaru Legacy");
+			Vehicle vehicle2 = new Vehicle("Subaru Forester");
+			Vehicle vehicle3 = new Vehicle("Subaru Impreza");
+			
+			userdt2.getVehicles().add(vehicle1);
+			userdt2.getVehicles().add(vehicle2);
+			userdt2.getVehicles().add(vehicle3);
+					
+			//save the transient instance before flushing
+			session.save(vehicle1);
+			session.save(vehicle2);
+			session.save(vehicle3);
+			
+			session.save(userdt2);			
+
+			session.getTransaction().commit();
+			session.close();
+			
+			
+			//Get user and its one to many list----------------------------------------------------
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			UserDetails user3 = session.get(UserDetails.class, userId);
+
+			Thread.sleep(1000);
+
+			// Send a new sql query after 3 seconds to collect addresses
+			System.out.println(Arrays.toString(user3.getVehicles().toArray()));
 
 			session.getTransaction().commit();
 			session.close();

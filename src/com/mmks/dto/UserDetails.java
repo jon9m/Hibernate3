@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -15,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -68,7 +70,12 @@ public class UserDetails {
 	private Citizenship citizenship;
 
 	
-	
+	// One-To-Many mapping to Citizenship
+	@OneToMany
+	@JoinTable(name="USERS_JOIN_VEHICLES" 
+			,joinColumns=@JoinColumn(name="USER_ID")
+			,inverseJoinColumns=@JoinColumn(name="VEHOICLE_ID"))
+	private Set<Vehicle> vehicles;	
 	
 	
 	
@@ -138,12 +145,22 @@ public class UserDetails {
 		this.citizenship = citizenship;
 	}
 
+	public Set<Vehicle> getVehicles() {
+		return vehicles;
+	}
+
+	public void setVehicles(Set<Vehicle> vehicles) {
+		this.vehicles = vehicles;
+	}
+
 	@Override
 	public String toString() {
 		return getClass().getName() + " {\n\tuserId: " + userId + "\n\tuserName: " + userName + "\n\tdescription: "
 				+ description + "\n\tlong_description: " + long_description + "\n\tsex: " + sex + "\n\tjoinedDate: "
-				+ joinedDate + "\n\taddresses: " + Arrays.toString(addresses.toArray()) + "\n\tcitizenship: "
-				+ citizenship + "\n}";
+				+ joinedDate + "\n\taddresses: " + Arrays.toString(addresses.toArray()) + "\n\tcitizenship: " + citizenship + "\n\tvehicles: "
+				+ Arrays.toString(vehicles.toArray()) + "\n}";
 	}
+
+	
 
 }
