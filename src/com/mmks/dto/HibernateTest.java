@@ -84,11 +84,16 @@ public class HibernateTest {
 			userdt2.getVehicles().add(vehicle1);
 			userdt2.getVehicles().add(vehicle2);
 			userdt2.getVehicles().add(vehicle3);
+			
+			//Reverse relationship - Many To One
+			vehicle1.setUser(userdt2);
+			vehicle2.setUser(userdt2);
+			vehicle3.setUser(userdt2);
 					
 			//save the transient instance before flushing
 			session.save(vehicle1);
 			session.save(vehicle2);
-			session.save(vehicle3);
+			session.save(vehicle3);			
 			
 			session.save(userdt2);			
 

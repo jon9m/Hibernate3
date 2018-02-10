@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -18,6 +19,9 @@ public class Vehicle {
 
 	@Column(name = "VEHICLE_NAME")
 	private String name;
+
+	@ManyToOne
+	private UserDetails user;
 
 	public Vehicle() {
 
@@ -42,6 +46,14 @@ public class Vehicle {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public UserDetails getUser() {
+		return user;
+	}
+
+	public void setUser(UserDetails user) {
+		this.user = user;
 	}
 
 	@Override
