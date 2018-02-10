@@ -1,6 +1,8 @@
 package com.mmks.dto;
 
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -32,24 +34,40 @@ public class HibernateTest {
 
 		try {
 			sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+			
+			//Save Userdetails ----------------------------------------------------------------------
 			session = sessionFactory.openSession();
-
 			session.beginTransaction();
 			Integer userId = (Integer) session.save(userDetails);
 
 			session.getTransaction().commit();
 			session.close();
 
+			//Get user and its value objects list----------------------------------------------------
 			session = sessionFactory.openSession();
 			session.beginTransaction();
-			UserDetails user = session.get(UserDetails.class, 1);
-			//System.out.println(user.toString());
-			
-			Thread.sleep(3000);
-			
-			//Send a new sql query after 3 seconds to collect addresses
+			UserDetails user = session.get(UserDetails.class, userId);
+			// System.out.println(user.toString());
+
+			Thread.sleep(1000);
+
+			// Send a new sql query after 3 seconds to collect addresses
 			System.out.println(Arrays.toString(user.getAddresses().toArray()));
+
+			session.getTransaction().commit();
+			session.close();
+
+			// OneToOne mapping---------------------------------------------------------------------
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			UserDetails userdtl = session.get(UserDetails.class, userId);			
 			
+			Citizenship citizenship = new Citizenship("US", 10, new GregorianCalendar(2017, 5, 30).getTime());
+			userdtl.setCitizenship(citizenship);
+			
+			session.save(citizenship);
+			session.save(userdtl);
+
 			session.getTransaction().commit();
 			session.close();
 

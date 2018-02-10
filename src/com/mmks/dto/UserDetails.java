@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -52,20 +53,26 @@ public class UserDetails {
 	@Temporal(TemporalType.DATE)
 	private Date joinedDate;
 
-	@ElementCollection(fetch=FetchType.LAZY)  //LAZY is default
+	// Saving collection of value objects
+	@ElementCollection(fetch = FetchType.LAZY) // LAZY is default /EAGER
 	@JoinTable(name = "USER_ADDRESSES", joinColumns = @JoinColumn(name = "USER_ID_FK"))
-//	@GenericGenerator(name = "hilo-gen", strategy = "hilo") // hilo no longer supported
-	@GenericGenerator(name="sequence-gen",strategy="sequence")
-	@CollectionId(columns = { @Column(name="ADDRESS_KEY_COLUMN") }, generator = "sequence-gen", type = @Type(type="long"))
+	// @GenericGenerator(name = "hilo-gen", strategy = "hilo") // hilo is no longer supported
+	@GenericGenerator(name = "sequence-gen", strategy = "sequence")
+	@CollectionId(columns = { @Column(name = "ADDRESS_KEY_COLUMN") }, generator = "sequence-gen", type = @Type(type = "long"))
 	private Collection<Address> addresses = new ArrayList<Address>();
 
+	
+	// One-To-One mapping to Citizenship
+	@OneToOne
+	@JoinColumn(name="USER_CITIZENSHIP_FK")
+	private Citizenship citizenship;
+
+	
+	
+	
+	
+	
 	// ----------------------------------------------------------------------//
-	
-	
-	
-	
-	
-	
 
 	public String getLong_description() {
 		return long_description;
@@ -123,11 +130,20 @@ public class UserDetails {
 		this.joinedDate = joinedDate;
 	}
 
+	public Citizenship getCitizenship() {
+		return citizenship;
+	}
+
+	public void setCitizenship(Citizenship citizenship) {
+		this.citizenship = citizenship;
+	}
+
 	@Override
 	public String toString() {
 		return getClass().getName() + " {\n\tuserId: " + userId + "\n\tuserName: " + userName + "\n\tdescription: "
 				+ description + "\n\tlong_description: " + long_description + "\n\tsex: " + sex + "\n\tjoinedDate: "
-				+ joinedDate + "\n\taddresses: " + Arrays.toString(addresses.toArray())+ "\n}";
+				+ joinedDate + "\n\taddresses: " + Arrays.toString(addresses.toArray()) + "\n\tcitizenship: "
+				+ citizenship + "\n}";
 	}
 
 }
