@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -16,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -58,26 +60,29 @@ public class UserDetails {
 	// Saving collection of value objects
 	@ElementCollection(fetch = FetchType.LAZY) // LAZY is default /EAGER
 	@JoinTable(name = "USER_ADDRESSES", joinColumns = @JoinColumn(name = "USER_ID_FK"))
-	// @GenericGenerator(name = "hilo-gen", strategy = "hilo") // hilo is no longer supported
+	// @GenericGenerator(name = "hilo-gen", strategy = "hilo") // hilo is no longer
+	// supported
 	@GenericGenerator(name = "sequence-gen", strategy = "sequence")
-	@CollectionId(columns = { @Column(name = "ADDRESS_KEY_COLUMN") }, generator = "sequence-gen", type = @Type(type = "long"))
+	@CollectionId(columns = {
+			@Column(name = "ADDRESS_KEY_COLUMN") }, generator = "sequence-gen", type = @Type(type = "long"))
 	private Collection<Address> addresses = new ArrayList<Address>();
 
-	
 	// One-To-One mapping to Citizenship
 	@OneToOne
-	@JoinColumn(name="USER_CITIZENSHIP_FK")
+	@JoinColumn(name = "USER_CITIZENSHIP_FK")
 	private Citizenship citizenship;
 
+	// One-To-Many mapping to vehicles
+	@OneToMany
+	@JoinTable(name = "USERS_JOIN_VEHICLES", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "USER_VEHICLE_ID"))
+	// @OneToMany(mappedBy="user") //No new table created
+	private Set<Vehicle> vehicles;
+
+	@ManyToMany()
+//	@JoinTable(name = "USERS_JOIN_JOBS", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "USER_JOB_ID"))
+	private Set<Job> jobs = new HashSet<Job>();
+
 	
-	// One-To-Many mapping to Citizenship
-//	@OneToMany
-//	@JoinTable(name="USERS_JOIN_VEHICLES" 
-//			,joinColumns=@JoinColumn(name="USER_ID")
-//			,inverseJoinColumns=@JoinColumn(name="USER_VEHICLE_ID"))
-	
-	@OneToMany(mappedBy="user")
-	private Set<Vehicle> vehicles;	
 	
 	
 	
@@ -155,14 +160,21 @@ public class UserDetails {
 		this.vehicles = vehicles;
 	}
 
+	public Set<Job> getJobs() {
+		return jobs;
+	}
+
+	public void setJobs(Set<Job> jobs) {
+		this.jobs = jobs;
+	}
+
 	@Override
 	public String toString() {
 		return getClass().getName() + " {\n\tuserId: " + userId + "\n\tuserName: " + userName + "\n\tdescription: "
 				+ description + "\n\tlong_description: " + long_description + "\n\tsex: " + sex + "\n\tjoinedDate: "
-				+ joinedDate + "\n\taddresses: " + Arrays.toString(addresses.toArray()) + "\n\tcitizenship: " + citizenship + "\n\tvehicles: "
-				+ Arrays.toString(vehicles.toArray()) + "\n}";
+				+ joinedDate + "\n\taddresses: " + Arrays.toString(addresses.toArray()) + "\n\tcitizenship: "
+				+ citizenship + "\n\tvehicles: " + Arrays.toString(vehicles.toArray()) + "\n\tjobs: "
+				+ Arrays.toString(jobs.toArray()) + "\n}";
 	}
-
-	
 
 }

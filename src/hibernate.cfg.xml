@@ -35,6 +35,7 @@
         <mapping class="com.mmks.dto.UserDetails"/>
         <mapping class="com.mmks.dto.Citizenship"/>
         <mapping class="com.mmks.dto.Vehicle"/>
+        <mapping class="com.mmks.dto.Job"/>
 
     </session-factory>
 
