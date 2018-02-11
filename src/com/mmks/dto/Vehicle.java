@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -21,6 +22,7 @@ public class Vehicle {
 	private String name;
 
 	@ManyToOne
+	@JoinColumn(name="VEHICLE_USER_ID_FK")
 	private UserDetails user;
 
 	public Vehicle() {

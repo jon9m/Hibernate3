@@ -71,10 +71,12 @@ public class UserDetails {
 
 	
 	// One-To-Many mapping to Citizenship
-	@OneToMany
-	@JoinTable(name="USERS_JOIN_VEHICLES" 
-			,joinColumns=@JoinColumn(name="USER_ID")
-			,inverseJoinColumns=@JoinColumn(name="VEHOICLE_ID"))
+//	@OneToMany
+//	@JoinTable(name="USERS_JOIN_VEHICLES" 
+//			,joinColumns=@JoinColumn(name="USER_ID")
+//			,inverseJoinColumns=@JoinColumn(name="USER_VEHICLE_ID"))
+	
+	@OneToMany(mappedBy="user")
 	private Set<Vehicle> vehicles;	
 	
 	
