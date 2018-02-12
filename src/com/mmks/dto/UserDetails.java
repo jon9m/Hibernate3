@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -68,17 +69,17 @@ public class UserDetails {
 	private Collection<Address> addresses = new ArrayList<Address>();
 
 	// One-To-One mapping to Citizenship
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "USER_CITIZENSHIP_FK")
 	private Citizenship citizenship;
 
 	// One-To-Many mapping to vehicles
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "USERS_JOIN_VEHICLES", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "USER_VEHICLE_ID"))
 	// @OneToMany(mappedBy="user") //No new table created
 	private Set<Vehicle> vehicles;
 
-	@ManyToMany()
+	@ManyToMany(cascade=CascadeType.ALL)
 //	@JoinTable(name = "USERS_JOIN_JOBS", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "USER_JOB_ID"))
 	private Set<Job> jobs = new HashSet<Job>();
 

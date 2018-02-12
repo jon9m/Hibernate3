@@ -67,13 +67,15 @@ public class HibernateTest {
 			userdtl.setCitizenship(citizenship);
 			
 			//save the transient instance before flushing
-			session.save(citizenship);
-			session.save(userdtl);
+//			session.save(citizenship); //No need to save if use cascade
+			
+//			session.save(userdtl); //Save wouldn't work with cascade PERSIST
+			session.persist(userdtl);
 
 			session.getTransaction().commit();
 			session.close();
 			
-			// OneToOne mapping---------------------------------------------------------------------
+			// OneToMany mapping---------------------------------------------------------------------
 			session = sessionFactory.openSession();
 			transaction = session.beginTransaction();
 			UserDetails userdt2 = session.get(UserDetails.class, userId);			
@@ -92,11 +94,12 @@ public class HibernateTest {
 			vehicle3.setUser(userdt2);
 					
 			//save the transient instance before flushing
-			session.save(vehicle1);
-			session.save(vehicle2);
-			session.save(vehicle3);			
+//			session.save(vehicle1);  //No need to save if use cascade
+//			session.save(vehicle2);
+//			session.save(vehicle3);			
 			
-			session.save(userdt2);			
+//			session.save(userdt2); //Save Wouldn't work with cascade PERSIST			
+			session.persist(userdt2);			
 
 			session.getTransaction().commit();
 			session.close();
@@ -115,7 +118,7 @@ public class HibernateTest {
 			session.getTransaction().commit();
 			session.close();
 			
-			// OneToOne mapping---------------------------------------------------------------------
+			// ManyToMany mapping---------------------------------------------------------------------
 			session = sessionFactory.openSession();
 			transaction = session.beginTransaction();
 			UserDetails userdt3 = session.get(UserDetails.class, userId);			
@@ -136,12 +139,13 @@ public class HibernateTest {
 			job4.getUsers().add(userdt3);
 			
 			//save the transient instance before flushing
-			session.save(job1);
-			session.save(job2);
-			session.save(job3);
-			session.save(job4);
+//			session.save(job1);	//No need to save if use cascade
+//			session.save(job2);
+//			session.save(job3);
+//			session.save(job4);
 			
-			session.save(userdt3);			
+//			session.save(userdt3);  //Save Wouldn't work with cascade PERSIST 			
+			session.persist(userdt3);			
 
 			session.getTransaction().commit();
 			session.close();
@@ -155,6 +159,18 @@ public class HibernateTest {
 
 			// Send a new sql query after 3 seconds to collect addresses
 			System.out.println(Arrays.toString(user5.getJobs().toArray()));
+
+			session.getTransaction().commit();
+			session.close();
+			
+			//Delete cascade----------------------------------------------------
+			session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			UserDetails user6 = session.get(UserDetails.class, userId);
+
+			Thread.sleep(3000);
+			System.out.println(user6.toString());
+			session.delete(user6);
 
 			session.getTransaction().commit();
 			session.close();
