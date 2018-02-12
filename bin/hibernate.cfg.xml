@@ -36,6 +36,8 @@
         <mapping class="com.mmks.dto.Citizenship"/>
         <mapping class="com.mmks.dto.Vehicle"/>
         <mapping class="com.mmks.dto.Job"/>
+        <mapping class="com.mmks.dto.Hatchback"/>
+        <mapping class="com.mmks.dto.Sedan"/>
 
     </session-factory>
 

@@ -84,14 +84,26 @@ public class HibernateTest {
 			Vehicle vehicle2 = new Vehicle("Subaru Forester");
 			Vehicle vehicle3 = new Vehicle("Subaru Impreza");
 			
+			Hatchback vw = new Hatchback("VW", "4");
+			Hatchback hi = new Hatchback("Hiundai", "4");
+			Sedan mazda5 = new Sedan("Mazda", "5");
+			
 			userdt2.getVehicles().add(vehicle1);
 			userdt2.getVehicles().add(vehicle2);
 			userdt2.getVehicles().add(vehicle3);
+			
+			userdt2.getVehicles().add(vw);
+			userdt2.getVehicles().add(hi);
+			userdt2.getVehicles().add(mazda5);
 			
 			//Reverse relationship - Many To One
 			vehicle1.setUser(userdt2);
 			vehicle2.setUser(userdt2);
 			vehicle3.setUser(userdt2);
+			
+			vw.setUser(userdt2);
+			hi.setUser(userdt2);
+			mazda5.setUser(userdt2);
 					
 			//save the transient instance before flushing
 //			session.save(vehicle1);  //No need to save if use cascade
@@ -164,7 +176,7 @@ public class HibernateTest {
 			session.close();
 			
 			//Delete cascade----------------------------------------------------
-			session = sessionFactory.openSession();
+			/*session = sessionFactory.openSession();
 			transaction = session.beginTransaction();
 			UserDetails user6 = session.get(UserDetails.class, userId);
 
@@ -173,7 +185,23 @@ public class HibernateTest {
 			session.delete(user6);
 
 			session.getTransaction().commit();
-			session.close();
+			session.close();*/
+			
+			//Save Inheritance tree ------------------------------------------------
+			/*session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			Thread.sleep(3000);
+			
+			Hatchback vw = new Hatchback("VW", "4");
+			Hatchback hi = new Hatchback("Hiundai", "4");
+			Sedan mazda5 = new Sedan("Mazda", "5");
+			
+			session.save(vw);
+			session.save(hi);
+			session.save(mazda5);
+
+			session.getTransaction().commit();
+			session.close();*/
 
 		} catch (Exception e) {
 			e.printStackTrace();
