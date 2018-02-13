@@ -59,7 +59,7 @@ public class UserDetails {
 	private Date joinedDate;
 
 	// Saving collection of value objects
-	@ElementCollection(fetch = FetchType.LAZY) // LAZY is default /EAGER
+	@ElementCollection(fetch = FetchType.EAGER) // LAZY is default /EAGER
 	@JoinTable(name = "USER_ADDRESSES", joinColumns = @JoinColumn(name = "USER_ID_FK"))
 	// @GenericGenerator(name = "hilo-gen", strategy = "hilo") // hilo is no longer
 	// supported
@@ -74,12 +74,12 @@ public class UserDetails {
 	private Citizenship citizenship;
 
 	// One-To-Many mapping to vehicles
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinTable(name = "USERS_JOIN_VEHICLES", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "USER_VEHICLE_ID"))
 	// @OneToMany(mappedBy="user") //No new table created
 	private Set<Vehicle> vehicles;
 
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 //	@JoinTable(name = "USERS_JOIN_JOBS", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "USER_JOB_ID"))
 	private Set<Job> jobs = new HashSet<Job>();
 
