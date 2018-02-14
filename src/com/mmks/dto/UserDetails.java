@@ -19,6 +19,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -32,6 +34,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 @Entity
+@NamedQuery(name="UserDetails.byId", query="from UserDetails where userId > ?")
+@NamedNativeQuery(name="UserDetails.byName", query="select * from user_details where user_name = :userName", resultClass=UserDetails.class)
 @Table(name = "USER_DETAILS")
 public class UserDetails {
 
