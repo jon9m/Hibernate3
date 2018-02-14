@@ -31,13 +31,19 @@ public class HibernateHQLTest {
 //			System.out.println(userDetails);
 			
 			
-			String queryString = "select userName, description from UserDetails";
-			Query<Object[]> query = session.createQuery(queryString);
+			/*String queryString = "select userId, userName, description from UserDetails user where user.userId > ?";
+			Query<Object[]> query = session.createQuery(queryString);			
+			query.setParameter(0, 100);*/
+			
+			String queryString = "select userId, userName, description from UserDetails user where user.userId > :userId";
+			Query<Object[]> query = session.createQuery(queryString);			
+			query.setParameter("userId", 100);
 		
 			List<Object[]> userDetails = query.list();
 			for(Object[] a : userDetails) {
 				System.out.println(a[0].toString());
 				System.out.println(a[1].toString());
+				System.out.println(a[2].toString());
 			}
 			System.out.println(userDetails);
 
