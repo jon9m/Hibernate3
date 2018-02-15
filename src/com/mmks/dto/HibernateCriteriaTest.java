@@ -1,5 +1,6 @@
 package com.mmks.dto;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -48,19 +49,25 @@ public class HibernateCriteriaTest {
 	        //-------------------------------------------------------------
 	        
 			CriteriaBuilder builder = session.getCriteriaBuilder();
-			CriteriaQuery<UserDetails> criteriaQuery = builder.createQuery(UserDetails.class);
+			CriteriaQuery<String[]> criteriaQuery = builder.createQuery(String[].class);
 			Root<UserDetails> root = criteriaQuery.from(UserDetails.class); 
-	        criteriaQuery.select(root);  
+	        criteriaQuery.multiselect(root.get("userId"), root.get("userName"), root.get("description"));  
 	        
+	        //Projection
 	        ParameterExpression<Integer> usserIdParameter = builder.parameter(Integer.class);
 	        criteriaQuery.where(builder.greaterThan(root.get("userId"), usserIdParameter));	        
-	        	        	        
-	        Query<UserDetails> query = session.createQuery(criteriaQuery);
+	        	        
+	        //Selection
+	        Query<String[]> query = session.createQuery(criteriaQuery);
 	        query.setParameter(usserIdParameter, 100);
+
+			List<String[]> list = query.getResultList();
+			for (Object[] objects : list) {
+				System.out.print("Name : " + objects[0]);
+				System.out.print(", userName : " + objects[1]);
+				System.out.println(", description : " + objects[2]);
+			}	        
 	        
-	        List list = query.getResultList();
-	        System.out.println(list);
-			
 			transaction.commit();
 			session.close();
 		} catch (Exception e) {
