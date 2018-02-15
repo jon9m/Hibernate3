@@ -1,6 +1,5 @@
 package com.mmks.dto;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -51,9 +50,11 @@ public class HibernateCriteriaTest {
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<String[]> criteriaQuery = builder.createQuery(String[].class);
 			Root<UserDetails> root = criteriaQuery.from(UserDetails.class); 
-	        criteriaQuery.multiselect(root.get("userId"), root.get("userName"), root.get("description"));  
+			
+			//Projection
+	        criteriaQuery.multiselect(root.get("userId"), root.get("userName"), root.get("description"));  	     
 	        
-	        //Projection
+	        //Parameters
 	        ParameterExpression<Integer> usserIdParameter = builder.parameter(Integer.class);
 	        criteriaQuery.where(builder.greaterThan(root.get("userId"), usserIdParameter));	        
 	        	        

@@ -34,6 +34,12 @@ public class Job {
 		super();
 		this.jobName = jobName;
 	}
+	
+	public Job(String jobName, int id) {
+		super();
+		this.id = id;
+		this.jobName = jobName;
+	}
 
 	public int getId() {
 		return id;
