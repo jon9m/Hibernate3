@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -29,14 +30,15 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.CollectionId;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
 @Entity
 @NamedQuery(name="UserDetails.byId", query="from UserDetails where userId > ?")
 @NamedNativeQuery(name="UserDetails.byName", query="select * from user_details where user_name = :userName", resultClass=UserDetails.class)
 @Table(name = "USER_DETAILS")
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class UserDetails {
 
 	@Id
@@ -63,7 +65,7 @@ public class UserDetails {
 	private Date joinedDate;
 
 	// Saving collection of value objects
-	@ElementCollection(fetch = FetchType.EAGER) // LAZY is default /EAGER
+	@ElementCollection(fetch = FetchType.LAZY) // LAZY is default /EAGER
 	@JoinTable(name = "USER_ADDRESSES", joinColumns = @JoinColumn(name = "USER_ID_FK"))
 	// @GenericGenerator(name = "hilo-gen", strategy = "hilo") // hilo is no longer
 	// supported
@@ -72,17 +74,17 @@ public class UserDetails {
 	private Collection<Address> addresses = new ArrayList<Address>();
 
 	// One-To-One mapping to Citizenship
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinColumn(name = "USER_CITIZENSHIP_FK")
 	private Citizenship citizenship;
 
 	// One-To-Many mapping to vehicles
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinTable(name = "USERS_JOIN_VEHICLES", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "USER_VEHICLE_ID"))
 	// @OneToMany(mappedBy="user") //No new table created
 	private Set<Vehicle> vehicles;
 
-	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 //	@JoinTable(name = "USERS_JOIN_JOBS", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "USER_JOB_ID"))
 	private Set<Job> jobs = new HashSet<Job>();
 

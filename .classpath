@@ -4,5 +4,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Hibernate"/>
 	<classpathentry kind="lib" path="C:/MALAKA/JAVA_PRJ/Hibernate/Hibernate3/Libs/Postgres JDBS/postgresql-42.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/MALAKA/JAVA_PRJ/Hibernate/Hibernate3/Libs/hibernate-release-5.2.13.Final/lib/optional/ehcache/ehcache-2.10.3.jar" sourcepath="C:/MALAKA/JAVA_PRJ/Hibernate/Hibernate3/Libs/hibernate-release-5.2.13.Final/source/persistence-api-1.0-sources.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EhCache"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
