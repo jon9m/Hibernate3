@@ -68,8 +68,7 @@ public class UserDetails {
 	// @GenericGenerator(name = "hilo-gen", strategy = "hilo") // hilo is no longer
 	// supported
 	@GenericGenerator(name = "sequence-gen", strategy = "sequence")
-	@CollectionId(columns = {
-			@Column(name = "ADDRESS_KEY_COLUMN") }, generator = "sequence-gen", type = @Type(type = "long"))
+//	@CollectionId(columns = { @Column(name = "ADDRESS_KEY_COLUMN") }, generator = "sequence-gen", type = @Type(type = "long"))
 	private Collection<Address> addresses = new ArrayList<Address>();
 
 	// One-To-One mapping to Citizenship

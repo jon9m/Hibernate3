@@ -21,14 +21,21 @@ public class HibernateHQLTest {
 
 			// String queryString = "from UserDetails";
 			// String queryString = "from UserDetails user_details where user_details.id = 152";
-//			String queryString = "from UserDetails";
-//
-//			Query<UserDetails> query = session.createQuery(queryString);
-//			query.setFirstResult(3);
-//			query.setMaxResults(2);
-//
-//			List<UserDetails> userDetails = query.list();
-//			System.out.println(userDetails);
+			
+			String queryString = "from UserDetails";
+
+			Query<UserDetails> query = session.createQuery(queryString);			
+			List<UserDetails> userDetails = query.list();
+			System.out.println(userDetails);
+			
+			/*String queryString = "from UserDetails";
+
+			Query<UserDetails> query = session.createQuery(queryString);
+			query.setFirstResult(3);
+			query.setMaxResults(2);
+
+			List<UserDetails> userDetails = query.list();
+			System.out.println(userDetails);*/
 			
 			
 			/*String queryString = "select userId, userName, description from UserDetails user where user.userId > ?";
@@ -54,11 +61,11 @@ public class HibernateHQLTest {
 			List<Object[]> userDetails = query.list();
 			System.out.println(userDetails);*/
 			
-			Query<UserDetails[]> query = session.getNamedNativeQuery("UserDetails.byName");			
+			/*Query<UserDetails[]> query = session.getNamedNativeQuery("UserDetails.byName");			
 			query.setParameter("userName", "first user");
 			
 			List<UserDetails[]> userDetails = query.list();
-			System.out.println(userDetails);
+			System.out.println(userDetails);*/
 
 			transaction.commit();
 			session.close();

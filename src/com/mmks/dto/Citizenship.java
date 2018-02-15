@@ -11,7 +11,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="USER_CITIZENSHIP")
+@Table(name = "USER_CITIZENSHIP")
 public class Citizenship {
 
 	@Id
@@ -19,7 +19,7 @@ public class Citizenship {
 	private int id;
 	private String name;
 	private int years;
-	
+
 	@Temporal(TemporalType.DATE)
 	private Date startDate;
 
@@ -64,6 +64,12 @@ public class Citizenship {
 
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
+	}
+
+	@Override
+	public String toString() {
+		return getClass().getName() + " {\n\tid: " + id + "\n\tname: " + name + "\n\tyears: " + years
+				+ "\n\tstartDate: " + startDate + "\n}";
 	}
 
 }

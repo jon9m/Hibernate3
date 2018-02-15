@@ -38,7 +38,10 @@ public class Sedan extends Vehicle {
 
 	@Override
 	public String toString() {
-		return getClass().getName() + " {\n\tmodel: " + model + "\n\tcapacity: " + capacity + "\n}";
+		return getClass().getName() + " {\n\tmodel: " + model + "\n\tcapacity: " + capacity + "\n\tgetId: " + getId()
+				+ "\n\tgetName: " + getName() + "\n}";
 	}
+
+	
 
 }
