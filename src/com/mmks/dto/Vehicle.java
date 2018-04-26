@@ -36,7 +36,7 @@ public class Vehicle {
 	private String name;
 
 	@ManyToOne
-	@JoinColumn(name="VEHICLE_USER_ID_FK")
+	@JoinColumn(name="VEHICLE_USER_ID_FK")			//required when use "mappedBy"
 	@NotFound(action=NotFoundAction.EXCEPTION)
 	private UserDetails user;
 

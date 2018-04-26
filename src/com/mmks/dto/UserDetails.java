@@ -81,7 +81,7 @@ public class UserDetails {
 	// One-To-Many mapping to vehicles
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinTable(name = "USERS_JOIN_VEHICLES", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "USER_VEHICLE_ID"))
-	// @OneToMany(mappedBy="user") //No new table created
+//	 @OneToMany(mappedBy="user") //No new table created , @JoinTable not required when this is used.
 	private Set<Vehicle> vehicles;
 
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
@@ -90,9 +90,7 @@ public class UserDetails {
 
 	
 	
-	
-	
-	// ----------------------------------------------------------------------//
+	//----------------------------------------------------------------------//
 
 	public String getLong_description() {
 		return long_description;
